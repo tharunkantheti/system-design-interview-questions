@@ -1,5 +1,23 @@
 # 02 · Back-of-the-Envelope Estimation
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** QPS · storage · bandwidth
+
+> [!TIP]
+> **30-second answer**
+> - 1 day ≈ 10^5 seconds; 1M requests/day ≈ 12 QPS; peak ≈ 2–3× average.
+> - Estimate QPS, storage over N years, and bandwidth, then say what each number changes in the design.
+
+<details><summary><b>Contents</b></summary>
+
+- [Numbers to keep in your head](#numbers-to-keep-in-your-head)
+- [Handy shortcuts](#handy-shortcuts)
+- [Worked example: photo-sharing app](#worked-example-photo-sharing-app)
+- [Tips](#tips)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 The goal is to get within an order of magnitude quickly, then use the number to justify design choices.
 
 ## Numbers to keep in your head
@@ -61,8 +79,18 @@ Assumptions: 100M daily active users, each uploads 1 photo per day on average, 5
 - Round aggressively; precision isn't the point.
 - Finish with what the number means: "~90 PB means object storage plus a CDN, not a database."
 
+## Common mistakes
+
+- ❌ Chasing precision instead of the order of magnitude.
+- ❌ Producing numbers that never influence a design decision.
+- ❌ Mixing up bits and bytes, or forgetting replication when sizing storage.
+
 ## Practice questions
 
 - Estimate storage for 5 years of tweets (text only, then with media).
 - How many servers to handle 50k QPS if one server handles ~2k?
 - How much RAM does it take to cache the top 20% of daily reads?
+
+---
+
+[← Scaling](01-scaling.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Interview Framework →](03-interview-framework.md)

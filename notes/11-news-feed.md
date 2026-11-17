@@ -1,5 +1,25 @@
 # 11 · News Feed System
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** fan-out · cache · ranking
+
+> [!TIP]
+> **30-second answer**
+> - Hybrid fan-out: push post IDs to followers' feed caches, pull for celebrities at read time.
+> - Feed cache stores only IDs; hydrate from post and user caches.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Two flows](#two-flows)
+- [Fan-out strategies](#fan-out-strategies)
+- [Design](#design)
+- [Data and caching](#data-and-caching)
+- [Deep dives](#deep-dives)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Users publish posts; each user sees a feed of posts from people they follow.
 
 ## Requirements
@@ -59,9 +79,19 @@ flowchart TB
 - **Consistency**: deleted posts must be filtered at read time.
 - **Hot users**: a celebrity post read by millions → replicate the post cache.
 
+## Common mistakes
+
+- ❌ Pure fan-out on write with no plan for celebrities.
+- ❌ Storing full post content in every feed.
+- ❌ Offset-based pagination on a changing feed.
+
 ## Practice questions
 
 - Why store only IDs in the feed cache?
 - How does the feed of a user who follows 3 celebrities and 400 normal users get built?
 - A user unfollows someone: what changes?
 - How would you add ads into the feed?
+
+---
+
+[← Notification System](10-notification-system.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Chat System →](12-chat-system.md)

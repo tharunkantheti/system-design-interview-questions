@@ -1,5 +1,24 @@
 # 03 · A Framework for the Interview
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** process · communication
+
+> [!TIP]
+> **30-second answer**
+> - Clarify (5–10 min) → high-level design (10–15) → deep dive (10–20) → wrap up (3–5).
+> - Get the interviewer to agree on the high-level design before going deep.
+
+<details><summary><b>Contents</b></summary>
+
+- [Time plan](#time-plan)
+- [Phase 1: clarify](#phase-1-clarify)
+- [Phase 2: high-level design](#phase-2-high-level-design)
+- [Phase 3: deep dive](#phase-3-deep-dive)
+- [Phase 4: wrap up](#phase-4-wrap-up)
+- [Do / don't](#do--dont)
+- [Common mistakes](#common-mistakes)
+
+</details>
+
 A 45-minute system design interview rewards structure and communication more than a "perfect" design.
 
 ## Time plan
@@ -44,3 +63,13 @@ A 45-minute system design interview rewards structure and communication more tha
 - ❌ Don't jump into a solution before clarifying.
 - ❌ Don't go deep on one box early and run out of time.
 - ❌ Don't name-drop technologies without explaining why.
+
+## Common mistakes
+
+- ❌ Designing before asking a single question.
+- ❌ Going silent while thinking.
+- ❌ Spending 20 minutes on one component and never finishing the big picture.
+
+---
+
+[← Estimation](02-estimation.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Rate Limiter →](04-rate-limiter.md)

@@ -33,3 +33,7 @@ A quick reference of the components that show up in almost every design.
 - **Saga** for multi-step workflows without distributed locks
 - **Backpressure** so slow consumers don't crash fast producers
 - **Circuit breaker** to stop hammering a failing dependency
+
+---
+
+[🏠 All notes](../README.md) &nbsp;·&nbsp; [Scaling →](01-scaling.md)

@@ -1,5 +1,27 @@
 # 12 · Chat System
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** WebSocket · presence · KV store
+
+> [!TIP]
+> **30-second answer**
+> - Persistent WebSocket per device to stateful chat servers; HTTP for everything else.
+> - Messages stored in a wide-column store keyed by (channel, message_id); offline users get push.
+> - Presence by heartbeat; devices sync by last-seen message ID.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Connection protocols](#connection-protocols)
+- [Design](#design)
+- [Message flow (1:1)](#message-flow-11)
+- [Storage](#storage)
+- [Multi-device sync](#multi-device-sync)
+- [Presence](#presence)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 One-on-one and small group chat with online presence, across mobile and web.
 
 ## Requirements
@@ -56,9 +78,19 @@ Each device tracks `cur_max_message_id`; on reconnect it fetches messages with a
 - Mark online on connect; offline when the **heartbeat** stops for ~30 s (tolerates flaky networks).
 - Publish status changes over pub/sub channels to friends. For big groups, fetch presence on demand instead.
 
+## Common mistakes
+
+- ❌ Polling instead of WebSockets with no justification.
+- ❌ No plan for message ordering.
+- ❌ Broadcasting presence to huge groups.
+
 ## Practice questions
 
 - How does service discovery choose a chat server for a user?
 - How do you guarantee message order in a group?
 - What happens to in-flight messages when a chat server crashes?
 - How would you add end-to-end encryption?
+
+---
+
+[← News Feed](11-news-feed.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Search Autocomplete →](13-search-autocomplete.md)

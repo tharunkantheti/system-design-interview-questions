@@ -1,5 +1,24 @@
 # 10 · Notification System
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** queues · retries · providers
+
+> [!TIP]
+> **30-second answer**
+> - Notification service checks preferences and templates, then fans out to one queue per channel.
+> - Workers call APNs/FCM/SMS/email providers with retries, a dead-letter queue, and dedup IDs.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Design](#design)
+- [Notification service responsibilities](#notification-service-responsibilities)
+- [Reliability](#reliability)
+- [Other concerns](#other-concerns)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Send push, SMS, and email notifications reliably at scale.
 
 ## Requirements
@@ -48,9 +67,19 @@ Why a queue per channel: an outage at the SMS provider shouldn't block push or e
 - **Device tokens** expire or rotate: clean them up on provider feedback.
 - **Monitoring** queue depth to scale workers.
 
+## Common mistakes
+
+- ❌ One shared queue so one provider outage blocks all channels.
+- ❌ Promising exactly-once delivery.
+- ❌ Ignoring opt-outs and per-user rate limits.
+
 ## Practice questions
 
 - How do you send a marketing blast to 50M users without overwhelming providers?
 - How do you avoid sending the same push twice after a worker crash?
 - Where do you enforce a user's quiet hours?
 - How do you support a new channel (WhatsApp) with minimal changes?
+
+---
+
+[← Web Crawler](09-web-crawler.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [News Feed →](11-news-feed.md)

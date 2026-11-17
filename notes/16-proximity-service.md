@@ -1,5 +1,24 @@
 # 16 · Proximity Service (Yelp-like "nearby places")
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** geohash · quadtree
+
+> [!TIP]
+> **30-second answer**
+> - Geohash or quadtree index maps a location to nearby cells; search the cell plus its 8 neighbors.
+> - The geo index is small enough to replicate in memory; business data is cached and read from replicas.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [API](#api)
+- [Design](#design)
+- [Geospatial indexing options](#geospatial-indexing-options)
+- [Data](#data)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Given a user's location and a radius, return nearby businesses.
 
 ## Requirements
@@ -56,9 +75,19 @@ Pick the length from the radius; if too few results, shorten the prefix (expand 
 - Business table: shard by `business_id` if needed.
 - Cache: `geohash → [business_ids]` and `business_id → details`.
 
+## Common mistakes
+
+- ❌ Range scans on raw lat/lng columns.
+- ❌ Forgetting boundary cells.
+- ❌ Sharding a small index that could just be replicated.
+
 ## Practice questions
 
 - Why check the 8 neighboring geohash cells?
 - Geohash vs quadtree: which do you choose and why?
 - How do you rank results (distance vs rating vs open now)?
 - How do you deploy across regions for latency and data residency?
+
+---
+
+[← Cloud File Storage](15-cloud-file-storage.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Nearby Friends →](17-nearby-friends.md)

@@ -1,5 +1,24 @@
 # 27 · Digital Wallet
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** event sourcing · TC/C · Raft
+
+> [!TIP]
+> **30-second answer**
+> - 1M TPS needs sharding, so cross-shard transfers need 2PC, TC/C, or sagas.
+> - Event sourcing gives an auditable log; state is rebuilt by replay; Raft replicates the log.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Estimate](#estimate)
+- [Approach 1: in-memory (Redis) shards](#approach-1-in-memory-redis-shards)
+- [Approach 2: sharded relational DB + distributed transactions](#approach-2-sharded-relational-db--distributed-transactions)
+- [Approach 3: event sourcing (strongest answer)](#approach-3-event-sourcing-strongest-answer)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Users hold balances and transfer money to each other instantly (think a payments app's internal balance).
 
 ## Requirements
@@ -48,9 +67,19 @@ flowchart LR
 - Replicate the event log with **Raft** across nodes for fault tolerance.
 - Partition accounts across many Raft groups; cross-partition transfers use **TC/C or saga** on top of event-sourced nodes.
 
+## Common mistakes
+
+- ❌ Redis as the system of record for money.
+- ❌ Ignoring failure between the debit and the credit.
+- ❌ No answer to "what was the balance last March?"
+
 ## Practice questions
 
 - Why is a single DB not enough at 1M TPS?
 - Compare 2PC and TC/C failure modes.
 - How do you prove to an auditor what Alice's balance was last March?
 - What is a compensating transaction for a failed credit step?
+
+---
+
+[← Payment System](26-payment-system.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Stock Exchange →](28-stock-exchange.md)

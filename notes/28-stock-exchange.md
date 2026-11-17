@@ -1,5 +1,26 @@
 # 28 · Stock Exchange
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** order book · matching engine · low latency
+
+> [!TIP]
+> **30-second answer**
+> - Gateway → order manager (risk) → sequencer → matching engine with a price-time-priority order book.
+> - Low latency: single-threaded engine, shared-memory event store, no GC or disk on the hot path.
+> - Deterministic replay of the sequenced log gives recovery and audit.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Three flows](#three-flows)
+- [Order book and matching](#order-book-and-matching)
+- [Sequencer](#sequencer)
+- [Low-latency techniques](#low-latency-techniques)
+- [Other topics](#other-topics)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Match buy and sell orders with very low, predictable latency and strict fairness.
 
 ## Requirements
@@ -51,9 +72,19 @@ flowchart LR
 - **Market data fairness**: multicast so all subscribers receive data at the same moment; colocation services.
 - **DDoS protection** at the gateway; read-only data cached and served via CDN for public quotes.
 
+## Common mistakes
+
+- ❌ Putting a network hop and a database on the critical path.
+- ❌ Multi-threaded matching with locks.
+- ❌ No plan for recovery or fairness of market data.
+
 ## Practice questions
 
 - Why single-threaded rather than multi-threaded matching?
 - How does the order book support O(1) cancel?
 - How do you recover the matching engine after a crash without losing orders?
 - How would you add market orders and stop orders?
+
+---
+
+[← Digital Wallet](27-digital-wallet.md) &nbsp;·&nbsp; [🏠 All notes](../README.md)

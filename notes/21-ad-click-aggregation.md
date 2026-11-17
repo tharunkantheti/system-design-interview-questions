@@ -1,5 +1,25 @@
 # 21 · Ad Click Event Aggregation
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** streaming · windows · exactly-once
+
+> [!TIP]
+> **30-second answer**
+> - Kafka → stream aggregation in 1-minute windows by ad_id → aggregated DB.
+> - Keep raw events for replay and daily reconciliation; use event time with watermarks.
+> - Exactly-once via atomic offset + output commits or dedup at the sink.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Design (streaming + batch reconciliation)](#design-streaming--batch-reconciliation)
+- [Aggregation details](#aggregation-details)
+- [Exactly-once](#exactly-once)
+- [Scaling and hotspots](#scaling-and-hotspots)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Count ad clicks in near real time for billing and dashboards. Correctness matters because money is involved.
 
 ## Requirements
@@ -41,9 +61,19 @@ Keeping the **raw data** allows recomputing if aggregation logic had a bug (a Ka
 - Partition Kafka by `ad_id`; add consumers up to the partition count.
 - A hugely popular ad → allocate extra aggregation nodes for that key, or split it and merge the partial counts.
 
+## Common mistakes
+
+- ❌ Using processing time and miscounting late events.
+- ❌ Dropping raw data so you can't recompute.
+- ❌ No answer for hot ads.
+
 ## Practice questions
 
 - What happens to an event that arrives 5 minutes late?
 - How do you prove the numbers billed to advertisers are correct?
 - Tumbling vs sliding windows: which for which query?
 - How do you filter by country without precomputing every combination?
+
+---
+
+[← Metrics Monitoring](20-metrics-monitoring.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Hotel Reservation →](22-hotel-reservation.md)

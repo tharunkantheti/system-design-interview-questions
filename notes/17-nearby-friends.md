@@ -1,5 +1,24 @@
 # 17 · Nearby Friends
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** WebSocket · pub/sub · location cache
+
+> [!TIP]
+> **30-second answer**
+> - Clients stream location over WebSockets every ~30 s; the server caches it with a TTL.
+> - Each user has a pub/sub channel; friends' handlers subscribe and push updates only within the radius.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Design](#design)
+- [Update flow](#update-flow)
+- [Scaling](#scaling)
+- [Alternatives / extensions](#alternatives--extensions)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Show opted-in friends who are within ~5 miles, updated in near real time.
 
 ## Requirements
@@ -43,9 +62,19 @@ On connect: load friends, subscribe to each friend's channel, and fetch their ca
 - Erlang/Elixir-style actor systems as an alternative to Redis pub/sub.
 - "Nearby random people": pub/sub channel per **geohash cell** instead of per user.
 
+## Common mistakes
+
+- ❌ Querying the DB for friends' locations on every refresh.
+- ❌ Underestimating pub/sub fan-out CPU.
+- ❌ No TTL for inactive users.
+
 ## Practice questions
 
 - Why not just query the DB for friends' locations every 30 s?
 - How do you handle a user with 5,000 friends?
 - What happens to subscriptions when a pub/sub server is added?
 - How do you respect privacy (opt-out, approximate location)?
+
+---
+
+[← Proximity Service](16-proximity-service.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Maps and Navigation →](18-maps-navigation.md)

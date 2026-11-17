@@ -1,5 +1,26 @@
 # 08 · URL Shortener
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** Base62 · cache · redirects
+
+> [!TIP]
+> **30-second answer**
+> - Unique 64-bit ID → Base62 → 7-character code; store code → long URL.
+> - Redirects are read-heavy: cache-aside plus a CDN; 302 if you need click analytics.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Estimates](#estimates)
+- [API](#api)
+- [Design](#design)
+- [Generating the short code](#generating-the-short-code)
+- [Redirect flow](#redirect-flow)
+- [Deep-dive topics](#deep-dive-topics)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Turn `https://example.com/some/very/long/path?x=1` into `https://sho.rt/aZ3kQ9b` and redirect back.
 
 ## Requirements
@@ -59,9 +80,19 @@ Base62 alphabet: `0-9a-zA-Z`.
 - **Analytics** asynchronously, so redirects stay fast.
 - **Expiry cleanup**: lazy deletion on read plus a periodic batch job.
 
+## Common mistakes
+
+- ❌ Not discussing 301 vs 302.
+- ❌ Hash truncation without a collision strategy.
+- ❌ Sequential codes that let anyone enumerate every link.
+
 ## Practice questions
 
 - Why Base62 and length 7?
 - How do you avoid collisions with the hash approach at scale?
 - How would you support 1M redirects/s globally?
 - How do you prevent people from enumerating all short URLs?
+
+---
+
+[← Unique ID Generator](07-unique-id-generator.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Web Crawler →](09-web-crawler.md)

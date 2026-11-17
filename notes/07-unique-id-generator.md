@@ -1,5 +1,23 @@
 # 07 · Unique ID Generator in Distributed Systems
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** Snowflake · 64-bit IDs
+
+> [!TIP]
+> **30-second answer**
+> - Snowflake layout: 41-bit timestamp + 10-bit machine ID + 12-bit sequence.
+> - IDs are generated locally (no coordination) and sort by time.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Options](#options)
+- [Snowflake layout (64 bits)](#snowflake-layout-64-bits)
+- [Edge cases to discuss](#edge-cases-to-discuss)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Generate unique IDs across many machines at high throughput, without one central bottleneck.
 
 ## Requirements
@@ -44,9 +62,19 @@ flowchart LR
 - **Assigning machine IDs**: static config, or lease from ZooKeeper/etcd at startup.
 - Tune the bit split: fewer machine bits and more sequence bits for low-concurrency, high-throughput setups.
 
+## Common mistakes
+
+- ❌ Choosing UUIDs without addressing size and index locality.
+- ❌ Ignoring the clock moving backwards.
+- ❌ Not explaining how machine IDs are assigned.
+
 ## Practice questions
 
 - Why are UUIDs bad as primary keys in a B-tree index?
 - What happens if two nodes accidentally get the same machine ID?
 - How long until the 41-bit timestamp runs out, and how would you migrate?
 - How would you make IDs non-guessable while still sortable?
+
+---
+
+[← Key-Value Store](06-key-value-store.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [URL Shortener →](08-url-shortener.md)

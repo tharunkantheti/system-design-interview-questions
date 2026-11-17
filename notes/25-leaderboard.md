@@ -1,5 +1,24 @@
 # 25 · Real-Time Gaming Leaderboard
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** Redis sorted sets
+
+> [!TIP]
+> **30-second answer**
+> - Redis sorted set per period: ZINCRBY to score, ZREVRANGE for top 10, ZREVRANK for a player's rank.
+> - Score updates only come from the server; MySQL keeps history for rebuilds.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Why not just a SQL table?](#why-not-just-a-sql-table)
+- [Redis sorted sets](#redis-sorted-sets)
+- [Design](#design)
+- [Scaling to hundreds of millions of players](#scaling-to-hundreds-of-millions-of-players)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Track scores for a mobile game and show the top 10 plus each player's own rank in real time.
 
 ## Requirements
@@ -48,9 +67,19 @@ flowchart LR
 
 Alternative: NoSQL (DynamoDB) with a write-sharded GSI on `(month#partition, score)`, accepting approximate ranks (percentiles) for low-ranked users.
 
+## Common mistakes
+
+- ❌ ORDER BY on a huge SQL table for every request.
+- ❌ Letting clients submit scores directly.
+- ❌ No answer for tie-breaking.
+
 ## Practice questions
 
 - How do you break ties between equal scores?
 - How do you reset the leaderboard monthly without downtime?
 - How do you prevent fake scores?
 - How would you compute a friends-only leaderboard?
+
+---
+
+[← Object Storage](24-object-storage.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Payment System →](26-payment-system.md)

@@ -1,5 +1,27 @@
 # 06 · Distributed Key-Value Store
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** quorum · gossip · LSM · CAP
+
+> [!TIP]
+> **30-second answer**
+> - Partition with consistent hashing and replicate to N nodes; W + R > N gives overlap.
+> - Vector clocks detect conflicts; gossip detects failures; hinted handoff and Merkle trees repair.
+> - Storage engine: commit log → memtable → SSTables with Bloom filters.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [CAP choice](#cap-choice)
+- [Core techniques](#core-techniques)
+- [Quorum math](#quorum-math)
+- [Write and read paths](#write-and-read-paths)
+- [Conflict resolution with vector clocks](#conflict-resolution-with-vector-clocks)
+- [Handling failures](#handling-failures)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Design `put(key, value)` / `get(key)` that scales horizontally and stays available. Think Dynamo, Cassandra, Riak.
 
 ## Requirements
@@ -67,9 +89,19 @@ flowchart TB
 - **Merkle trees**: compare hash trees of key ranges between replicas and sync only differing buckets.
 - **Multi-datacenter replication** for disaster recovery.
 
+## Common mistakes
+
+- ❌ Claiming strong consistency and high availability during partitions.
+- ❌ Not explaining what happens when a replica is down during a write.
+- ❌ Leaving out conflict resolution entirely.
+
 ## Practice questions
 
 - Pick N, W, R for a read-heavy, latency-sensitive workload. Justify.
 - Walk through a conflict with vector clocks and how the client resolves it.
 - Why use an LSM tree instead of a B-tree here?
 - How do you add a node without downtime?
+
+---
+
+[← Consistent Hashing](05-consistent-hashing.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Unique ID Generator →](07-unique-id-generator.md)

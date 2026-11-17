@@ -1,5 +1,25 @@
 # 20 · Metrics Monitoring and Alerting
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** time-series DB · alerting
+
+> [!TIP]
+> **30-second answer**
+> - Collectors (pull or push) → Kafka → time-series DB with compression and downsampling.
+> - Query service powers dashboards and an alert manager that dedupes and routes alerts.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Data model](#data-model)
+- [Design](#design)
+- [Pull vs push](#pull-vs-push)
+- [Storage](#storage)
+- [Alerting](#alerting)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Collect infrastructure and app metrics (CPU, latency, error rates), visualize them, and alert on problems.
 
 ## Requirements
@@ -56,9 +76,19 @@ Both are fine; say which and why.
 - Alert manager **dedupes, groups, silences**, and routes; retries delivery until acknowledged.
 - Store alert state to avoid duplicate pages.
 
+## Common mistakes
+
+- ❌ Using a generic relational DB for metrics.
+- ❌ High-cardinality labels such as user IDs.
+- ❌ No plan for when monitoring itself fails.
+
 ## Practice questions
 
 - Why is cardinality the main scaling risk?
 - How do you alert when the monitoring system itself is down?
 - Explain how delta-of-delta encoding saves space.
 - How long does a "last 30 days, p99 by region" dashboard query take, and how do you make it fast?
+
+---
+
+[← Distributed Message Queue](19-message-queue.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Ad Click Aggregation →](21-ad-click-aggregation.md)

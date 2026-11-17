@@ -1,5 +1,24 @@
 # 05 · Consistent Hashing
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** hash ring · virtual nodes
+
+> [!TIP]
+> **30-second answer**
+> - Servers and keys live on one hash ring; a key belongs to the next server clockwise.
+> - Adding or removing a node moves only ~k/N keys; virtual nodes even out the load.
+
+<details><summary><b>Contents</b></summary>
+
+- [The problem with `hash(key) % N`](#the-problem-with-hashkey--n)
+- [The hash ring](#the-hash-ring)
+- [Virtual nodes](#virtual-nodes)
+- [Replication on the ring](#replication-on-the-ring)
+- [Where it's used](#where-its-used)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 How to spread keys over servers so that adding or removing a server only moves a small fraction of keys.
 
 ## The problem with `hash(key) % N`
@@ -45,9 +64,19 @@ To keep N copies, store the key on the first N **distinct physical** servers clo
 - Load balancers with session affinity
 - CDNs choosing which edge server caches an object
 
+## Common mistakes
+
+- ❌ Using hash % N and not explaining why it fails.
+- ❌ Ignoring hot keys, which consistent hashing alone doesn't fix.
+- ❌ Placing replicas on virtual nodes of the same physical machine.
+
 ## Practice questions
 
 - Why does modulo hashing fail when nodes change?
 - How do virtual nodes fix skew? What do they cost?
 - How would you handle a single hot key that overloads its server?
 - Compare consistent hashing with rendezvous (highest-random-weight) hashing.
+
+---
+
+[← Rate Limiter](04-rate-limiter.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Key-Value Store →](06-key-value-store.md)

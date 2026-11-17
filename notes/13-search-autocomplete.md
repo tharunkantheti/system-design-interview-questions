@@ -1,5 +1,25 @@
 # 13 · Search Autocomplete (Typeahead)
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** trie · top-k · caching
+
+> [!TIP]
+> **30-second answer**
+> - Trie with top-k cached at each node gives O(prefix) lookups.
+> - Rebuild offline from query logs; serve from memory with browser caching and sharding.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Two services](#two-services)
+- [Trie with cached top-k](#trie-with-cached-top-k)
+- [Pipeline](#pipeline)
+- [Query service optimizations](#query-service-optimizations)
+- [Updates and filtering](#updates-and-filtering)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 As the user types, show the top 5 most popular queries that start with the prefix.
 
 ## Requirements
@@ -51,9 +71,19 @@ flowchart LR
 - **Filter layer** to remove offensive or dangerous suggestions before serving.
 - For trending/real-time: a separate streaming path that boosts recent queries.
 
+## Common mistakes
+
+- ❌ Updating the trie on every search in real time.
+- ❌ Traversing the subtree for every keystroke.
+- ❌ Forgetting to filter offensive suggestions.
+
 ## Practice questions
 
 - Estimate trie memory if you cache top-5 at each node.
 - How would you support multiple languages?
 - How do you make breaking-news queries show up within minutes?
 - How do you personalize suggestions per user?
+
+---
+
+[← Chat System](12-chat-system.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Video Streaming →](14-video-streaming.md)

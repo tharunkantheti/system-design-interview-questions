@@ -1,5 +1,24 @@
 # 18 · Maps and Navigation (Google Maps-like)
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** tiles · routing graph · ETA
+
+> [!TIP]
+> **30-second answer**
+> - Precomputed map tiles per zoom level, served from a CDN.
+> - Routing graph split into hierarchical routing tiles; shortest path (A*) plus an ML-based ETA.
+> - Batched location updates feed traffic, ETA and rerouting.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Key concepts](#key-concepts)
+- [Design](#design)
+- [Component notes](#component-notes)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Render maps, find routes, estimate travel time, and give turn-by-turn navigation.
 
 ## Requirements
@@ -40,9 +59,19 @@ flowchart LR
 - **ETA**: combine historical speeds and live traffic with ML predictions.
 - **Rerouting**: track active navigations by tile; when traffic changes in a tile, recompute ETA for affected users and push updates over a WebSocket.
 
+## Common mistakes
+
+- ❌ Loading the whole world graph into memory.
+- ❌ Sending location every second and draining the battery.
+- ❌ No plan for live rerouting.
+
 ## Practice questions
 
 - How many tiles exist at zoom 21? Why precompute and CDN them?
 - Why split the routing graph into tiles with different levels?
 - How do you detect a traffic jam from user location data?
 - How do you know which users to reroute when an accident happens?
+
+---
+
+[← Nearby Friends](17-nearby-friends.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Distributed Message Queue →](19-message-queue.md)

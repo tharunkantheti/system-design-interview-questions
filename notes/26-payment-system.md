@@ -1,5 +1,24 @@
 # 26 · Payment System
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** idempotency · ledger · reconciliation
+
+> [!TIP]
+> **30-second answer**
+> - Pay-in through a PSP with a hosted payment page; track each payment as a persisted state machine.
+> - Idempotency keys + retries give effectively-once; double-entry ledger; daily reconciliation.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Pay-in flow](#pay-in-flow)
+- [Ledger: double-entry accounting](#ledger-double-entry-accounting)
+- [Reliability](#reliability)
+- [Consistency between services](#consistency-between-services)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Backend for an e-commerce site to accept money from buyers (pay-in) and pay sellers (pay-out).
 
 ## Requirements
@@ -53,9 +72,19 @@ Every transaction is recorded as equal debit and credit entries. The sum of all 
 - Keep ledger and wallet updates in one DB transaction when possible; otherwise use the **outbox pattern** or **sagas**.
 - Read from the primary (or use consensus-replicated DBs) to avoid stale balances.
 
+## Common mistakes
+
+- ❌ Handling raw card numbers yourself.
+- ❌ Retries without idempotency, leading to double charges.
+- ❌ No reconciliation step.
+
 ## Practice questions
 
 - Show how an idempotency key prevents a double charge when the client times out and retries.
 - Why double-entry bookkeeping?
 - How do you handle a PSP webhook that never arrives?
 - How do pay-outs differ from pay-ins in risk and timing?
+
+---
+
+[← Real-Time Leaderboard](25-leaderboard.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Digital Wallet →](27-digital-wallet.md)

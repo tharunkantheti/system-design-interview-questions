@@ -1,5 +1,26 @@
 # 23 · Distributed Email Service (Gmail-like)
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** SMTP · storage · search
+
+> [!TIP]
+> **30-second answer**
+> - SMTP in and out through queues; spam and virus filters; WebSocket for real-time inbox updates.
+> - Metadata in a wide-column store partitioned by user; attachments in object storage; per-user search index.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Traditional protocols](#traditional-protocols)
+- [Design](#design)
+- [Sending flow](#sending-flow)
+- [Metadata storage](#metadata-storage)
+- [Search](#search)
+- [Deliverability](#deliverability)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Send, receive, store, search, and sync email for a billion users.
 
 ## Requirements
@@ -53,9 +74,19 @@ flowchart LR
 
 - SPF, DKIM, DMARC; dedicated IPs with gradual warm-up; feedback loops for complaints; separate pools for transactional vs bulk mail.
 
+## Common mistakes
+
+- ❌ Using a relational DB with no partitioning for a billion mailboxes.
+- ❌ Leaving out spam filtering and deliverability (SPF/DKIM/DMARC).
+- ❌ Global instead of per-user search.
+
 ## Practice questions
 
 - Why are emails stored per user instead of once per message?
 - How do you keep search near real time on 1B mailboxes?
 - How would you design labels (Gmail) vs folders?
 - How do you stop your outgoing IPs from being blocklisted?
+
+---
+
+[← Hotel Reservation](22-hotel-reservation.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Object Storage →](24-object-storage.md)

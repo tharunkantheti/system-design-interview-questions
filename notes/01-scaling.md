@@ -1,5 +1,24 @@
 # 01 · Scaling From One Server to Millions of Users
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** load-balancing · caching · replication · sharding
+
+> [!TIP]
+> **30-second answer**
+> - Make the web tier stateless and put it behind a load balancer.
+> - Use primary/replica DBs, then a cache and a CDN to take reads off the database.
+> - Shard the database once writes outgrow one primary; use queues for slow work.
+
+<details><summary><b>Contents</b></summary>
+
+- [Step-by-step evolution](#step-by-step-evolution)
+- [Target architecture](#target-architecture)
+- [Caching notes](#caching-notes)
+- [Sharding notes](#sharding-notes)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 The story of how a simple app grows. Each step removes the current bottleneck.
 
 ## Step-by-step evolution
@@ -48,9 +67,19 @@ flowchart LR
 - Problems to mention: **hot shards** (celebrity users), **resharding**, and **cross-shard joins**, which usually means denormalizing.
 - Consistent hashing (see [05](05-consistent-hashing.md)) makes resharding cheaper.
 
+## Common mistakes
+
+- ❌ Sharding before trying replicas and caching first.
+- ❌ Keeping sessions on the web server, which breaks horizontal scaling.
+- ❌ Forgetting replication lag and read-your-writes consistency.
+
 ## Practice questions
 
 - When would you pick vertical scaling over horizontal?
 - How do you keep a session alive when the server that created it dies?
 - A replica lags 5 seconds behind. A user updates their profile and refreshes. What do they see, and how do you fix it?
 - What breaks first if traffic grows 10× overnight?
+
+---
+
+[← Building Blocks](00-building-blocks.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Estimation →](02-estimation.md)

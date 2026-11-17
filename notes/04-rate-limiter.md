@@ -1,5 +1,26 @@
 # 04 · Rate Limiter
 
+**Difficulty:** 🟢 Easy &nbsp;|&nbsp; **Topics:** token bucket · Redis · API gateway
+
+> [!TIP]
+> **30-second answer**
+> - Use token bucket or sliding window counter in gateway middleware.
+> - Keep counters in Redis and update them atomically with a Lua script; return 429 with Retry-After.
+> - Fail open if the limiter store is down.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Where to put it](#where-to-put-it)
+- [Algorithms](#algorithms)
+- [Design](#design)
+- [Distributed challenges](#distributed-challenges)
+- [Extras worth mentioning](#extras-worth-mentioning)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Limit how many requests a client can send in a time window to protect services from abuse, runaway clients, and cost overruns.
 
 ## Requirements
@@ -59,9 +80,19 @@ Response headers:
 - Rate limiting at other layers (L3/L4 with iptables, or at the CDN/WAF).
 - Monitor reject rates to tune rules.
 
+## Common mistakes
+
+- ❌ Non-atomic read-then-write counters (race conditions).
+- ❌ Fixed windows without discussing the 2× burst at window edges.
+- ❌ Letting a limiter outage take down the whole API.
+
 ## Practice questions
 
 - Show how a fixed window allows 2× traffic at the boundary.
 - How would you implement token bucket in Redis atomically?
 - Different limits for free vs paid tiers: where do rules live and how are they updated?
 - How do you rate-limit across 3 regions without a global lock?
+
+---
+
+[← Interview Framework](03-interview-framework.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Consistent Hashing →](05-consistent-hashing.md)

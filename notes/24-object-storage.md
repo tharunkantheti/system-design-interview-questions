@@ -1,5 +1,26 @@
 # 24 · Object Storage (S3-like)
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** metadata/data split · erasure coding
+
+> [!TIP]
+> **30-second answer**
+> - Separate a metadata store (names, versions) from an immutable data store (UUID → bytes).
+> - Pack small objects into large files; durability via replication or erasure coding with checksums.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Key idea: separate metadata and data](#key-idea-separate-metadata-and-data)
+- [Design](#design)
+- [Upload flow](#upload-flow)
+- [Data store internals](#data-store-internals)
+- [Durability](#durability)
+- [Other features](#other-features)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Store and retrieve immutable objects (blobs) of any size through a simple HTTP API.
 
 ## Requirements
@@ -56,9 +77,19 @@ Also: spread across failure domains (racks, AZs) and **checksums** on every read
 - **Listing** with prefix: metadata sharded by `(bucket, object name)` makes prefix listing a scatter-gather; optionally maintain a denormalized listing table.
 - Garbage collection of orphaned data and old versions.
 
+## Common mistakes
+
+- ❌ Storing each object as its own file.
+- ❌ Saying "replicate 3×" without comparing erasure coding.
+- ❌ Ignoring silent data corruption.
+
 ## Practice questions
 
 - Why separate metadata from data?
 - Erasure coding vs replication: when do you pick each?
 - How do you detect and repair a corrupted chunk?
 - How would you implement `LIST bucket?prefix=photos/2024/` efficiently?
+
+---
+
+[← Email Service](23-email-service.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Real-Time Leaderboard →](25-leaderboard.md)

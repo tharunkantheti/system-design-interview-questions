@@ -1,5 +1,27 @@
 # 14 · Video Streaming Platform (YouTube-like)
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** transcoding · CDN · adaptive bitrate
+
+> [!TIP]
+> **30-second answer**
+> - Upload to object storage via pre-signed URLs, then run a transcoding DAG into many bitrates.
+> - Serve HLS/DASH segments from a CDN; the player adapts quality to bandwidth.
+> - CDN cost dominates, so only push popular content to the CDN.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Estimates](#estimates)
+- [Two flows](#two-flows)
+- [Transcoding](#transcoding)
+- [Optimizations](#optimizations)
+- [Errors](#errors)
+- [Security and rights](#security-and-rights)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Users upload videos; millions watch them on many devices and network speeds.
 
 ## Requirements
@@ -54,9 +76,19 @@ flowchart LR
 
 - Pre-signed upload URLs, DRM, AES encryption of segments, watermarking.
 
+## Common mistakes
+
+- ❌ Routing upload bytes through API servers.
+- ❌ One rendition per video with no adaptive streaming.
+- ❌ Ignoring CDN cost.
+
 ## Practice questions
 
 - Why adaptive bitrate instead of one file per resolution?
 - How do you make transcoding of a 2-hour video fast?
 - What's the main cost driver, and how do you reduce it?
 - How do you support live streaming instead of uploads?
+
+---
+
+[← Search Autocomplete](13-search-autocomplete.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Cloud File Storage →](15-cloud-file-storage.md)

@@ -1,5 +1,24 @@
 # 22 · Hotel Reservation System
 
+**Difficulty:** 🟡 Medium &nbsp;|&nbsp; **Topics:** inventory · locking · idempotency
+
+> [!TIP]
+> **30-second answer**
+> - Inventory row per (hotel, room type, date); booking checks reserved + requested ≤ capacity × 1.1.
+> - Optimistic locking or a DB constraint prevents the last-room race; idempotency keys stop double-clicks.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Services](#services)
+- [Inventory model](#inventory-model)
+- [Concurrency problems](#concurrency-problems)
+- [Scaling](#scaling)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 Search hotels, view rooms, and book a room type for a date range without double-booking.
 
 ## Requirements
@@ -52,9 +71,19 @@ total_reserved + requested <= total_inventory * 1.10
 - Shard by `hotel_id`; cache inventory in Redis for fast availability checks, but the **DB stays the source of truth**.
 - If services own separate DBs (microservices), use the **saga pattern** or keep reservation and inventory in one DB to avoid 2PC.
 
+## Common mistakes
+
+- ❌ Booking specific room numbers.
+- ❌ Treating the cache as the source of truth for inventory.
+- ❌ Using 2PC across microservices without considering sagas.
+
 ## Practice questions
 
 - Why reserve by room type instead of room number?
 - Walk through optimistic locking for the last-room race.
 - How does the cache stay consistent with the DB inventory?
 - How do you handle a payment that fails after the room was held?
+
+---
+
+[← Ad Click Aggregation](21-ad-click-aggregation.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Email Service →](23-email-service.md)

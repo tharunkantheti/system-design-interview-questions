@@ -1,5 +1,26 @@
 # 19 · Distributed Message Queue (Kafka-like)
 
+**Difficulty:** 🔴 Hard &nbsp;|&nbsp; **Topics:** partitions · replication · offsets
+
+> [!TIP]
+> **30-second answer**
+> - Topics split into partitions (append-only logs) across brokers; ordering is per partition.
+> - Leader/follower replication with ISR; acks=0/1/all trades latency for durability.
+> - Consumer groups pull and commit offsets; at-least-once needs idempotent consumers.
+
+<details><summary><b>Contents</b></summary>
+
+- [Requirements](#requirements)
+- [Core model](#core-model)
+- [Storage](#storage)
+- [Replication](#replication)
+- [Consumers](#consumers)
+- [Delivery semantics](#delivery-semantics)
+- [Common mistakes](#common-mistakes)
+- [Practice questions](#practice-questions)
+
+</details>
+
 A durable, high-throughput system for producers to publish messages and consumers to read them.
 
 ## Requirements
@@ -56,9 +77,19 @@ flowchart LR
 | At-least-once | acks=all, commit after processing; consumers must be idempotent |
 | Exactly-once | Idempotent producers + transactions, or dedup at the sink |
 
+## Common mistakes
+
+- ❌ Promising global ordering across partitions.
+- ❌ Not explaining what acks mean for data loss.
+- ❌ Ignoring consumer rebalancing.
+
 ## Practice questions
 
 - Why is a partition the unit of ordering and parallelism?
 - What happens when a leader broker dies mid-write?
 - How do you choose the number of partitions?
 - How would you add delayed/scheduled messages?
+
+---
+
+[← Maps and Navigation](18-maps-navigation.md) &nbsp;·&nbsp; [🏠 All notes](../README.md) &nbsp;·&nbsp; [Metrics Monitoring →](20-metrics-monitoring.md)
